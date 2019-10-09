@@ -8,14 +8,22 @@ import { map, tap, take } from 'rxjs/operators';
 })
 export class AppComponent implements OnInit {
 
-  // example 1
   ngOnInit() {
+  // example 1
     of(2, 4, 6)
       .pipe(
         map(item => item *2),
         tap(item => console.log(item)),
         take(2)
       ).subscribe(console.log)
+
+  // using TAP
+    of(10, 20, 30)
+      .pipe(
+        tap(item => alert(item)),
+        map(item => item * 2),
+        tap(item => alert(item))
+      ).subscribe()
   }
 
 }
@@ -42,5 +50,23 @@ THE VALUE OUTPUT by the LAST OPERATOR (take(2))...
 and processed by the Observer's next method, which we passed to the subscribe().
 
 The Observer is (console.log)
+
+EACH OPERATOR TAKES IN AN OBSERVAABLE and SUBSCRIBED TO THAT INPUT,
+then creates and returns an output observable.
+
+As an item is emitted from an input Observable, the operator processes that item as defined by the operator's arguments.
+
+Each items passes through all of the operators before the next item is processed.
+
+When an item is emitted, item is transformed as specified by a provided function, called a projection function.
+
+TAP taps into a stream without modifying it:
+
+of(2,4,6)
+  .pipe(
+    tap(item => console.log(item)),
+    map(item => item * 2),
+    tap(item => console.log(item))
+  ).subscribe
 
 */
