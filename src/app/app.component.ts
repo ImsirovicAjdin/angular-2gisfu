@@ -44,6 +44,26 @@ export class AppComponent implements OnInit {
         () => console.log(`complete`)
       )
 
+//*5*: ADD ERROR HANDLING AND CHECK FOR 0 WITH THE MAP OPERATOR:
+
+      from([20, 15, 10, 5])
+        .pipe(
+          tap(item => console.log(`emitted item: ${item}`)),
+          map(item => item *2),
+          map(item => item -10),
+          map(item => {
+            if (item === 0) {
+              throw new Error('zero detected');
+            }
+            return item;
+          })
+        )
+        .subscribe(
+          item => console.log(`resulting item .. ${item}`),
+          err => console.error(`error occured .. ${err}`),
+          () => console.log(`complete`)
+        )
+
 
   }
 
@@ -112,5 +132,25 @@ from([1000, 2000, 3000, 4000]).pipe().subscribe(
   err => console.log(`error occured .. ${err}`),
   () => console.log(`complete`)
 )
+
+*5*: ADD ERROR HANDLING AND CHECK FOR 0 WITH THE MAP OPERATOR:
+
+from([20, 15, 10, 5])
+  .pipe(
+    tap(item => console.log(`emitted item: ${item}`)),
+    map(item => item *2),
+    map(item => item -10),
+    map(item => {
+      if (item === 0) {
+        throw new Error('zero detected');
+      }
+      return item;
+    })
+  )
+  .subscribe(
+    item => console.log(`resulting item .. ${item}`),
+    err => console.log(`error occured .. ${err}`),
+    () => console.log(`complete`)
+  )
 
 */
