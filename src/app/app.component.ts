@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { of } from 'rxjs';
+import { of, from } from 'rxjs';
 import { map, tap, take } from 'rxjs/operators';
 
 @Component({
@@ -18,12 +18,33 @@ export class AppComponent implements OnInit {
       ).subscribe(console.log)
 
   // using TAP
-    of(10, 20, 30)
+    // of(10, 20, 30)
+    //   .pipe(
+    //     tap(item => alert(item)),
+    //     map(item => item * 2),
+    //     tap(item => alert(item))
+    //   ).subscribe()
+
+    // RxJS TAKE operator***
+    of(100, 200, 300, 400)
       .pipe(
-        tap(item => alert(item)),
-        map(item => item * 2),
-        tap(item => alert(item))
-      ).subscribe()
+        take(1)
+      ).subscribe(console.log); // 100
+
+    // ****: Map, tap, take demo:
+    from([1000, 2000, 3000, 4000])
+      .pipe(
+        tap(item => console.log(`emitted item: ${item}`)),
+        map(item => item *2),
+        map(item => item -10)
+      )
+      .subscribe(
+        item => console.log(`resulting item .. ${item}`),
+        err => console.log(`error occured .. ${err}`),
+        () => console.log(`complete`)
+      )
+
+
   }
 
 }
@@ -68,5 +89,28 @@ of(2,4,6)
     map(item => item * 2),
     tap(item => console.log(item))
   ).subscribe
+
+RxJS TAKE operator***
+
+Emits a specified number of items. Here we're only emitting the first 2 items in the stream.
+
+The TAKE unsubscribes from its input Observable.
+
+...which unsubscribed up the chain from the Source Observable.
+
+No further items are emitted, and the take completes the chain to the Result Observable.
+
+
+****: Map, tap, take demo:
+
+To pipe each emitted value through a sequence of operators, we call the pipe() method.
+
+be sure to insert it before the .subscribe():
+
+from([1000, 2000, 3000, 4000]).pipe().subscribe(
+  item => console.log(`resulting item .. ${item}`),
+  err => console.log(`error occured .. ${err}`),
+  () => console.log(`complete`)
+)
 
 */
